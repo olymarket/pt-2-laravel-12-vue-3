@@ -1,21 +1,28 @@
-# Laravel + Vue 3 + Axios Setup Guide
+# Agenda
 
-Este proyecto utiliza Laravel como backend y Vue 3 como frontend con Axios para el consumo de API.
+This project is a technical test that consists of developing an agenda with the following features:
+- Database: SQLite.
+- Backend: API built with Laravel 12.
+- Frontend: Developed with Vue.js, consuming the API via Axios.
 
 ---
 
-## 🔧 Requisitos previos
+## Demo
 
-Asegúrate de tener instalado:
+![Portfolio Demo](./img/demo.webp "Desktop Demo")
+Link: pt2.olymarket.online
+---
 
-- PHP = 8.4
-- Composer = 2.8.9
-- Node.js >= 18.20.8
+## 🔧 Requirements
+
+- Laravel = 12
+- PHP   = 8.4
+- VUE   = 3
 - MySQL = 9.3.0
 
 ---
 
-## ⚙️ Instalación del proyecto
+## ⚙️ Installing
 
 ```bash
 git clone https://github.com/olymarket/pt-2-laravel-12-vue-3.git # Clona el repositorio

@@ -25,16 +25,15 @@ class AgendaController extends Controller
             );
             if(empty($agenda)){
                 return response()->json([
-                    'statu'   => 'error',
-                    'message' => 'Data not found',
-                    'agendas'  => $agenda,
+                    'statu'   => '1',
+                    'message' => 'Error: Data not found',
                 ],404);
             }
             elseif(!empty($agenda)){
                 return response()->json([
-                    'statu'   => 'success',
-                    'message' => 'Found data',
-                    'agendas'  => $agenda,
+                    'statu'   => '3',
+                    'message' => 'Success: Data found',
+                    'agendas' => $agenda,
                 ],200);
             }
         }catch(Exception $e){
@@ -77,20 +76,20 @@ class AgendaController extends Controller
                 'name.min'        => '3 characters minimum',
                 'name.max'        => '30 characters maximum',
 
-                'phone.required'   => 'phone required',
-                'phone.digits'     => '10 characters minimum',
+                'phone.required'  => 'phone required',
+                'phone.digits'    => '10 characters minimum',
 
                 'date.required'   => 'date required',
                 'date.date'       => 'only date',
                 'date.after'      => 'The year must be after 1900',
-                    'date.before'     => 'The year must not be greater than 2100',
+                'date.before'     => 'The year must not be greater than 2100',
             ];
         
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
                 return response()->json([
-                    'statu'   => 'error',
-                    'message' => 'Corrects the following errors',
+                    'statu'   => '2',
+                    'message' => 'Error: Validation',
                     'errors'  => $validator->errors()
                 ], 422);
             }
@@ -106,8 +105,8 @@ class AgendaController extends Controller
                 ]);
         
                 return response()->json([
-                    'statu'   => 'success',
-                    'message' => 'Save data',
+                    'statu'   => '3',
+                    'message' => 'Success: Data found',
                 ], 200);
             }
         }
@@ -134,22 +133,22 @@ class AgendaController extends Controller
             );
             if(empty($agenda)){
                 return response()->json([
-                    'statu'   => 'error',
-                    'message' => 'Data not found',
-                    'agenda'  => $agenda,
+                    'statu'   => '1',
+                    'message' => 'Error: Data not found',
+                    'redirect'=> route('agenda.index')
                 ],404);
             }
             elseif(!empty($agenda)){
                 return response()->json([
-                    'statu'   => 'success',
-                    'message' => 'Found data',
+                    'statu'   => '3',
+                    'message' => 'Success: Data found',
                     'agenda'  => $agenda[0],
                 ],200);
             }
         }catch(Exception $e){
             return response()->json([
                 'statu'   => 'error',
-                'message' => 'Error in stored procedures',
+                'message' => 'Error: in stored procedures',
                 'errors'  => $e->getMessage(),
             ], 500);
         }
@@ -163,8 +162,8 @@ class AgendaController extends Controller
 
             if(empty($agenda)){
                 return response()->json([
-                    'statu'    => 'error',
-                    'message'  => 'This record does not exist',
+                    'statu'    => '1',
+                    'message'  => 'Error: Data not found',
                     'redirect' => route('agenda.index')
                 ],404);
             }
@@ -192,8 +191,8 @@ class AgendaController extends Controller
                     'name.min'        => '3 characters minimum',
                     'name.max'        => '30 characters maximum',
 
-                    'phone.required'   => 'phone required',
-                    'phone.digits'     => '10 characters minimum',
+                    'phone.required'  => 'phone required',
+                    'phone.digits'    => '10 characters minimum',
 
                     'date.required'   => 'date required',
                     'date.date'       => 'only date',
@@ -204,8 +203,8 @@ class AgendaController extends Controller
                 $validator = Validator::make($request->all(), $rules, $messages);
                 if ($validator->fails()) {
                     return response()->json([
-                        'statu'   => 'error',
-                        'message' => 'Corrects the following errors',
+                        'statu'   => '2',
+                        'message' => 'Error: Validation',
                         'errors'  => $validator->errors()
                     ], 422);
                 }
@@ -222,8 +221,8 @@ class AgendaController extends Controller
                     ]);
             
                     return response()->json([
-                        'statu'   => 'success',
-                        'message' => 'Update data',
+                        'statu'   => '4',
+                        'message' => 'Success: Data update',
                     ], 200);
                 }
             }
@@ -244,8 +243,8 @@ class AgendaController extends Controller
 
             if(empty($agenda)){
                 return response()->json([
-                    'statu'    => 'error',
-                    'message'  => 'This record does not exist',
+                    'statu'    => '1',
+                    'message'  => 'Error: Record not available',
                 ],404);
             }
             elseif(!empty($agenda)){
@@ -253,8 +252,8 @@ class AgendaController extends Controller
                 $agenda = DB::delete("DELETE FROM agenda WHERE idAgenda = ?", [$idAgenda]);
 
                 return response()->json([
-                    'statu'   => 'success',
-                    'message' => 'Delete data',
+                    'statu'   => '3',
+                    'message' => 'Success: Data deleted',
                     'agenda'  => $agenda,
                 ], 200);
             }
