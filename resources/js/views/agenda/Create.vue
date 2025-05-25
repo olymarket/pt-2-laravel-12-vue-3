@@ -75,7 +75,7 @@ export default {
     },
     methods: {
         agendacreate() {
-            const url = 'http://127.0.0.1:8000/api/agenda-store';
+            const url = 'http://127.0.0.1:8000/api/v1/agenda-store';
             axios.post(url, this.agenda)
                 .then(response => {
                     if(response.data.statu === '3'){

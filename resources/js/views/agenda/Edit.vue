@@ -81,7 +81,7 @@ export default {
     },
     methods: {
         agendaEdit(idAgenda) {
-            const url = `http://127.0.0.1:8000/api/agenda-edit/${idAgenda}`
+            const url = `http://127.0.0.1:8000/api/v1/agenda-edit/${idAgenda}`
             axios.get(url)
                 .then(response => {
                     if (response.data.statu === '3') {
@@ -98,7 +98,7 @@ export default {
         },
         agendaUpdate() {
             const idAgenda = this.$route.params.id;
-            const url = `http://127.0.0.1:8000/api/agenda-update/${idAgenda}`
+            const url = `http://127.0.0.1:8000/api/v1/agenda-update/${idAgenda}`
             axios.post(url, this.agenda)
                 .then(response => {
                     if (response.data.statu === '4') {

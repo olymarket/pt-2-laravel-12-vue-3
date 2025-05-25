@@ -61,7 +61,7 @@ export default {
     },
     methods: {
         agendaIndex() {
-            const url = 'http://127.0.0.1:8000/api/agenda-index';
+            const url = 'http://127.0.0.1:8000/api/v1/agenda-index';
             axios.get(url)
                 .then(response => {
                     if (response.data.statu === '3') {
@@ -84,7 +84,7 @@ export default {
                 });
         },
         agendaDelete(idAgenda) {
-            const url = `http://127.0.0.1:8000/api/agenda-delete/${idAgenda}`;
+            const url = `http://127.0.0.1:8000/api/v1/agenda-delete/${idAgenda}`;
             axios.delete(url)
                 .then(response => {
                     if (response.data.statu === '3') {
