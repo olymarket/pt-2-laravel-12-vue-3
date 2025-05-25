@@ -9,7 +9,7 @@ This project is a technical test that consists of developing an agenda with the 
 
 ## Demo
 
-![Portfolio Demo](./img/demo.webp "Desktop Demo")
+![Portfolio Demo](./public/img/demo.webp "Desktop Demo")
 Link: pt2.olymarket.online
 ---
 

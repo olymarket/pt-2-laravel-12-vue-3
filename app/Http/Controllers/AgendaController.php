@@ -19,7 +19,8 @@ class AgendaController extends Controller
                     idAgenda,
                     name,
                     phone,
-                    DATE_FORMAT(date, "%Y-%M-%d-%W") AS date
+                    -- DATE_FORMAT(date, "%Y-%M-%d-%W") AS date
+                    strftime(\'%Y-%m-%d-%w\', date) AS date
                 FROM agenda 
                 ORDER BY idAgenda DESC'
             );

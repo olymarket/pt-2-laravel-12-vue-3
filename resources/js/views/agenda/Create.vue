@@ -79,7 +79,7 @@ export default {
             axios.post(url, this.agenda)
                 .then(response => {
                     if(response.data.statu === '3'){
-                        this.create = error.response.data.message;
+                        this.create = response.data.message;
                         setTimeout(() => {
                             this.create = "";
                         }, 3000);
