@@ -2,8 +2,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 mb-4">
-                <router-link :to="{ name: 'agendaCreate' }" class="btn btn-success"><i class="fas fa-plus-circle"></i>
-                    New</router-link>
+                <router-link :to="{ name: 'admin.agenda.create' }" class="btn btn-success"><i class="fas fa-plus-circle"></i>
+                    Create</router-link>
             </div>
             <div v-if="success" class="alert alert-success">
                 {{ success }}
@@ -30,8 +30,8 @@
                                 <td>{{ agenda.phone }}</td>
                                 <td>{{ agenda.date }}</td>
                                 <td>
-                                    <router-link :to="{ name: 'agendaEdit', params: { id: agenda.idAgenda } }"
-                                        class="btn btn-info"><i class="fas fa-edit"></i> Edit</router-link>
+                                    <router-link :to="{ name: 'admin.agenda.edit', params: { id: agenda.idAgenda } }"
+                                        class="btn btn-info me-2"><i class="fas fa-edit"></i> Edit</router-link>
                                     <button @click="agendaDelete(agenda.idAgenda)" class="btn btn-danger"><i
                                             class="fas fa-trash"></i> Delete</button>
                                 </td>
@@ -48,7 +48,7 @@
 import axios from 'axios'
 
 export default {
-    name: "agendaHome",
+    name: "agenda-index",
     data() {
         return {
             agendas: [],
@@ -56,7 +56,15 @@ export default {
             error: ""
         }
     },
-    mounted() {
+    created() {
+        const error = sessionStorage.getItem('postEditError');
+        if (error) {
+            this.error = error;
+            sessionStorage.removeItem('postEditError');
+            setTimeout(() => {
+                this.error = "";
+            }, 4000);
+        }
         this.agendaIndex();
     },
     methods: {
@@ -64,13 +72,13 @@ export default {
             const url = 'http://127.0.0.1:8000/api/v1/agenda-index';
             axios.get(url)
                 .then(response => {
-                    if (response.data.statu === '3') {
+                    if (response.data.statu === '2') {
                         this.agendas = response.data.agendas;
                         this.success = response.data.message;
                         setTimeout(() => {
                             this.success = "";
-                        }, 3000);
-                        console.log('Succes: Data found', response);
+                        }, 4000);
+                        console.log('Exists: Record found', response);
                     }
                 })
                 .catch(error => {
@@ -78,7 +86,7 @@ export default {
                         this.error = error.response.data.message;
                         setTimeout(() => {
                             this.error = "";
-                        }, 3000);
+                        }, 4000);
                         console.log('Error: Data not found', error);
                     }
                 });
@@ -87,23 +95,23 @@ export default {
             const url = `http://127.0.0.1:8000/api/v1/agenda-delete/${idAgenda}`;
             axios.delete(url)
                 .then(response => {
-                    if (response.data.statu === '3') {
+                    if (response.data.statu === '5') {
                         this.agendas = this.agendas.filter(agenda => agenda.idAgenda !== idAgenda);
                         this.error = response.data.message;
                         setTimeout(() => {
                             this.error = "";
-                        }, 3000);
-                        console.log('Success: Data deleted', response);
+                        }, 4000);
+                        console.log('Deleted: Record deleted', response);
                     }
                 })
                 .catch(error => {
-                    console.log('Error: Record not available', error);
                     if (error.response.data.statu === '1') {
-                        this.error = error.response.data.message;
                         this.agendas = this.agendas.filter(agenda => agenda.idAgenda !== idAgenda);
+                        this.error = error.response.data.message;
                         setTimeout(() => {
                             this.error = "";
-                        }, 3000);
+                        }, 4000);
+                        console.log('Deleted: Record deleted', error);
                     }
                 });
         }

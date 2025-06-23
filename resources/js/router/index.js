@@ -1,27 +1,27 @@
 import { createRouter, createWebHistory } from 'vue-router'
-const agendaHome   = ()=> import('../views/agenda/Home.vue');
-const agendaCreate = ()=> import('../views/agenda/Create.vue');
-const agendaEdit   = ()=> import('../views/agenda/Edit.vue');
+const AgendaIndex   = ()=> import('../views/agenda/Index.vue');
+const AgendaCreate = ()=> import('../views/agenda/Create.vue');
+const AgendaEdit   = ()=> import('../views/agenda/Edit.vue');
 
 export const routes = [
     {
         path: '/',
-        redirect: '/agenda-index'
+        redirect: 'admin/agenda-index'
     },
     {
-        name:'agendaHome',
-        path:'/agenda-index',
-        component:agendaHome
+        path: '/admin/agenda-index',
+        name: 'admin.agenda.index',
+        component:AgendaIndex
     },
     {
-        name:'agendaCreate',
-        path:'/agenda-create',
-        component:agendaCreate
+        path: '/admin/agenda-create',
+        name: 'admin.agenda.create',
+        component:AgendaCreate
     },
     {
-        name:'agendaEdit',
-        path:'/agenda-edit/:id',
-        component:agendaEdit
+        path: '/admin/agenda-edit/:id',
+        name: 'admin.agenda.edit',
+        component:AgendaEdit
     }
 ]
 

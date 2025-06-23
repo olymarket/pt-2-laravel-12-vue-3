@@ -21,26 +21,28 @@ class AgendaController extends Controller
                     phone,
                     -- DATE_FORMAT(date, "%Y-%M-%d-%W") AS date
                     strftime(\'%Y-%m-%d-%w\', date) AS date
-                FROM agenda 
-                ORDER BY idAgenda DESC'
+                FROM 
+                    agenda 
+                ORDER BY 
+                    idAgenda DESC'
             );
             if(empty($agenda)){
                 return response()->json([
                     'statu'   => '1',
-                    'message' => 'Error: Data not found',
+                    'message' => 'Not found: Record not available',
                 ],404);
             }
             elseif(!empty($agenda)){
                 return response()->json([
-                    'statu'   => '3',
-                    'message' => 'Success: Data found',
+                    'statu'   => '2',
+                    'message' => 'Exists: Record found',
                     'agendas' => $agenda,
                 ],200);
             }
         }catch(Exception $e){
             return response()->json([
-                'statu'   => 'error',
-                'message' => 'Error in stored procedures',
+                'statu'   => '0',
+                'message' => 'Error: Database error',
                 'errors'  => $e->getMessage(),
             ], 500);
         }
@@ -89,7 +91,7 @@ class AgendaController extends Controller
             $validator = Validator::make($request->all(), $rules, $messages);
             if ($validator->fails()) {
                 return response()->json([
-                    'statu'   => '2',
+                    'statu'   => '-1',
                     'message' => 'Error: Validation',
                     'errors'  => $validator->errors()
                 ], 422);
@@ -106,15 +108,15 @@ class AgendaController extends Controller
                 ]);
         
                 return response()->json([
-                    'statu'   => '3',
-                    'message' => 'Success: Data found',
+                    'statu'   => '4',
+                    'message' => 'Update: Record updated',
                 ], 200);
             }
         }
         catch(Exception $e){
             return response()->json([
-                'statu'   => 'error',
-                'message' => 'Error in stored procedures',
+                'statu'   => '0',
+                'message' => 'Error: Database error',
                 'errors'  => $e->getMessage(),
             ],500);
         }
@@ -128,28 +130,35 @@ class AgendaController extends Controller
     public function edit($idAgenda)
     {
         try{
-            $agenda = DB::select('SELECT idAgenda, name, phone, date 
-                FROM agenda
-                WHERE idAgenda = ?', [$idAgenda]
+            $agenda = DB::select(
+                'SELECT 
+                    idAgenda, 
+                    name, 
+                    phone, 
+                    date 
+                FROM 
+                    agenda
+                WHERE 
+                    idAgenda = ?', [$idAgenda]
             );
             if(empty($agenda)){
                 return response()->json([
                     'statu'   => '1',
-                    'message' => 'Error: Data not found',
-                    'redirect'=> route('agenda.index')
+                    'message' => 'Not found: Record not available',
+                    'redirect'=> 'admin.agenda.index'
                 ],404);
             }
             elseif(!empty($agenda)){
                 return response()->json([
-                    'statu'   => '3',
-                    'message' => 'Success: Data found',
+                    'statu'   => '2',
+                    'message' => 'Exists: Record found',
                     'agenda'  => $agenda[0],
                 ],200);
             }
         }catch(Exception $e){
             return response()->json([
-                'statu'   => 'error',
-                'message' => 'Error: in stored procedures',
+                'statu'   => '0',
+                'message' => 'Error: Database error',
                 'errors'  => $e->getMessage(),
             ], 500);
         }
@@ -159,13 +168,19 @@ class AgendaController extends Controller
     public function update(Request $request, $idAgenda)
     {
         try{
-            $agenda = DB::select("SELECT idAgenda FROM agenda WHERE idAgenda = ?", [$idAgenda]);
+            $agenda = DB::select(
+                "SELECT 
+                    idAgenda 
+                FROM 
+                    agenda 
+                WHERE 
+                    idAgenda = ?", [$idAgenda]);
 
             if(empty($agenda)){
                 return response()->json([
                     'statu'    => '1',
-                    'message'  => 'Error: Data not found',
-                    'redirect' => route('agenda.index')
+                    'message'  => 'Not found: Record not available',
+                    'redirect' => 'admin.agenda.index'
                 ],404);
             }
             elseif(!empty($agenda)){
@@ -204,8 +219,8 @@ class AgendaController extends Controller
                 $validator = Validator::make($request->all(), $rules, $messages);
                 if ($validator->fails()) {
                     return response()->json([
-                        'statu'   => '2',
-                        'message' => 'Error: Validation',
+                        'statu'   => '-1',
+                        'message' => 'Validation: Error',
                         'errors'  => $validator->errors()
                     ], 422);
                 }
@@ -223,15 +238,15 @@ class AgendaController extends Controller
             
                     return response()->json([
                         'statu'   => '4',
-                        'message' => 'Success: Data update',
+                        'message' => 'Update: Record updated',
                     ], 200);
                 }
             }
         }
         catch(Exception $e){
             return response()->json([
-                'statu'   => 'error',
-                'message' => 'Error in stored procedures',
+                'statu'   => '0',
+                'message' => 'Error: Database error',
                 'errors'  => $e->getMessage(),
             ],500);
         }
@@ -240,28 +255,38 @@ class AgendaController extends Controller
     public function destroy($idAgenda)
     {
         try{
-            $agenda = DB::select("SELECT idAgenda FROM agenda WHERE idAgenda = ?", [$idAgenda]);
+            $agenda = DB::select(
+                "SELECT 
+                    idAgenda 
+                FROM 
+                    agenda 
+                WHERE 
+                    idAgenda = ?", [$idAgenda]);
 
             if(empty($agenda)){
                 return response()->json([
                     'statu'    => '1',
-                    'message'  => 'Error: Record not available',
+                    'message'  => 'Not found: Record not available',
                 ],404);
             }
             elseif(!empty($agenda)){
                 
-                $agenda = DB::delete("DELETE FROM agenda WHERE idAgenda = ?", [$idAgenda]);
+                $agenda = DB::delete(
+                    "DELETE 
+                    FROM 
+                        agenda 
+                    WHERE 
+                        idAgenda = ?", [$idAgenda]);
 
                 return response()->json([
-                    'statu'   => '3',
-                    'message' => 'Success: Data deleted',
-                    'agenda'  => $agenda,
+                    'statu'   => '5',
+                    'message' => 'Deleted: Record deleted',
                 ], 200);
             }
         }catch(Exception $e){
             return response()->json([
-                'statu'   => 'error',
-                'message' => 'Error in stored procedures',
+                'statu'   => '0',
+                'message' => 'Error: Database error',
                 'errors'  => $e->getMessage(),
             ], 500);
         }

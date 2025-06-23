@@ -9,7 +9,7 @@
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <router-link exact-active-class="active" :to="{ name:'agendaHome'}" class="nav-link">Agenda</router-link>
+                            <router-link exact-active-class="active" :to="{ name:'admin.agenda.index'}" class="nav-link">Agenda</router-link>
                         </li>
                     </ul>
                 </div>

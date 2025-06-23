@@ -4,11 +4,11 @@ use App\Http\Controllers\AgendaController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'v1'], function () {
-    Route::get('agenda-index', [AgendaController::class, 'index'])->name('agenda.index');
-    Route::post('agenda-store', [AgendaController::class, 'store'])->name('');
-    Route::get('agenda-edit/{idAgenda}', [AgendaController::class, 'edit'])->name('');
-    Route::post('agenda-update/{idAgenda}', [AgendaController::class, 'update'])->name('');
-    Route::delete('agenda-delete/{idAgenda}', [AgendaController::class, 'destroy'])->name('');
+    Route::get('agenda-index', [AgendaController::class, 'index'])->name('admin.agenda.index');
+    Route::post('agenda-store', [AgendaController::class, 'store'])->name('admin.agenda.store');
+    Route::get('agenda-edit/{idAgenda}', [AgendaController::class, 'edit'])->name('admin.agenda.edit');
+    Route::post('agenda-update/{idAgenda}', [AgendaController::class, 'update'])->name('admin.agenda.update');
+    Route::delete('agenda-delete/{idAgenda}', [AgendaController::class, 'destroy'])->name('admin.agenda.delete');
 
     Route::get('/clear', function () {
         $run = Artisan::call('config:clear');
